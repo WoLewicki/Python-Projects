@@ -333,7 +333,7 @@ def transform_to_vars(bin_repr, variables):  # transform every binary representa
             result += variables[i]
             if i != len(bin_repr) - 1:
                 result += "*"
-    print(result)
+    return result
 
 
 def quine_mc(expr):
@@ -358,7 +358,9 @@ def quine_mc(expr):
             if compare_weird(true_list[i], unchecked[j]):
                 array[j][i] = 1
     minimal_result = find_minimal_result(array, unchecked)
+    result = []
     for i, elem in enumerate(minimal_result):
-        transform_to_vars(elem, var_list)
+        result += transform_to_vars(elem, var_list)
         if i != len(minimal_result) - 1:
-            print("+")
+            result += " + "
+    print("".join(result))
