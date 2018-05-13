@@ -26,6 +26,12 @@ def validate_screen(dictionary):
                     return False
     if screen["width"] < 1 or screen["height"] < 0:
         return False
+    if not match("[a-z]+", screen["bg_color"]) and not match("\(\d{1,3},\d{1,3},\d{1,3}\)", elem["bg_color"]) and \
+            not match("#[0-9,a-f]{6}", elem["bg_color"]):
+        return False
+    if not match("[a-z]+", screen["fg_color"]) and not match("\(\d{1,3},\d{1,3},\d{1,3}\)", elem["fg_color"]) and \
+            not match("#[0-9,a-f]{6}", elem["fg_color"]):
+        return False
     return True
 
 
