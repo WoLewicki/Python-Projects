@@ -7,16 +7,23 @@ def check_if_can_do_without_palette(dictionary):
         for elem in figures:
             if "color" in elem:
                 if not match("[a-z]+", elem["color"]) and not match("\(\d{1,3},\d{1,3},\d{1,3}\)", elem["color"]) and \
-                        not match("#\d{6}", elem["color"]):
+                        not match("#[0-9,a-f]{6}", elem["color"]):
                     return False
                 elif match("[a-z]+", elem["color"]):
                     if elem["color"] not in dictionary["Palette"]:
                         return False
+    return True
 
 
-def validate_screen(screen):
-    if "width" not in screen or "height" not in screen or "bg_color" not in screen or "fg_color" not in screen:
+def validate_screen(dictionary):
+    screen = dictionary["Screen"]
+    if "width" not in screen or "height" not in screen or "bg_color" not in screen:
         return False
+    if "fg_color" not in screen:
+        if "Figures" in dictionary:
+            for elem in dictionary["Figures"]:
+                if "color" not in elem:
+                    return False
     if screen["width"] < 1 or screen["height"] < 0:
         return False
     return True

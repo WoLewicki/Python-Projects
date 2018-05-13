@@ -18,6 +18,11 @@ class Paint:
             self.draw_figure(figure, d)
         self.image.show()
 
+    def save(self, output):
+        if not output.endswith(".png"):
+            output += ".png"
+        self.image.save(output)
+
     def draw_figure(self, obj, d):
         if isinstance(obj, F.Point):
             self.draw_point(obj, d)
@@ -49,7 +54,8 @@ class Paint:
         points = [(obj.x - obj.radius, obj.y - obj.radius), (obj.x + obj.radius, obj.y + obj.radius)]
         d.ellipse(points, self.convert_color(self.palette, obj.color))
 
-    def convert_color(self, palette, color):
+    @staticmethod
+    def convert_color(palette, color):
         def convert_to_image_input_type(unready):
             if match("\(\d{1,3},\d{1,3},\d{1,3}\)", unready):
                 unready = unready[1:-1]

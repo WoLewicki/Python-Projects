@@ -30,6 +30,12 @@ def main():
     if not json_dict:
         print("Couldn't get dict from json.")
         return
+    if "Screen" not in json_dict:
+        print("Didn't pass screen values in json.")
+        return
+    if not valid.validate_screen(json_dict):
+        print("Wrong screen parameters passed")
+        return
     palette = {}
     if "Palette" in json_dict:
         palette = json_dict["Palette"]
@@ -37,13 +43,6 @@ def main():
         if not valid.check_if_can_do_without_palette(json_dict):
             print("Didn't pass palette and it was needed.")
             return
-    if "Screen" not in json_dict:
-        print("Didn't pass screen values in json.")
-        return
-    if not valid.validate_screen(json_dict["Screen"]):
-        print("Wrong screen parameters passed")
-        return
-
     screen = json_dict["Screen"]
     default_color = screen["fg_color"]
     figures = json_dict["Figures"]
@@ -64,6 +63,8 @@ def main():
 
     paint_all = Paint(screen, drawings, palette)
     paint_all.draw_all()
+    if output is not "":
+        paint_all.save(output)
 
 
 if __name__ == '__main__':
