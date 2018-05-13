@@ -1,3 +1,4 @@
+from re import match
 import Figures as F
 from PIL import Image, ImageDraw
 
@@ -9,7 +10,7 @@ class Paint:
         self.figures = figures
         self.palette = palette
         self.image = Image.new('RGB', (self.screen["width"], self.screen["height"]),
-                               Paint.convert_color(self.palette, self.screen["bg_color"]))
+                               self.convert_color(self.palette, self.screen["bg_color"]))
 
     def draw_all(self):
         for figure in self.figures:
@@ -37,24 +38,23 @@ class Paint:
         d.polygon(points, self.convert_color(self.palette, obj.color))
 
     def draw_rectangle(self, obj, d):
-        points = [(obj.x - obj.width/2, obj.y + obj.height/2), (obj.x + obj.width/2, obj.y - obj.height/2)]
+        points = [(obj.x - obj.width/2, obj.y - obj.height/2), (obj.x + obj.width/2, obj.y + obj.height/2)]
         d.rectangle(points, self.convert_color(self.palette, obj.color))
 
     def draw_square(self, obj, d):
-        points = [(obj.x - obj.size/2, obj.y + obj.size/2), (obj.x + obj.size/2, obj.y - obj.size/2)]
+        points = [(obj.x - obj.size/2, obj.y - obj.size/2), (obj.x + obj.size/2, obj.y + obj.size/2)]
         d.rectangle(points, self.convert_color(self.palette, obj.color))
 
     def draw_circle(self, obj, d):
-        points = [(obj.x - obj.radius, obj.y + obj.radius), (obj.x + obj.radius, obj.y - obj.radius)]
+        points = [(obj.x - obj.radius, obj.y - obj.radius), (obj.x + obj.radius, obj.y + obj.radius)]
         d.ellipse(points, self.convert_color(self.palette, obj.color))
 
-    @staticmethod
-    def convert_color(palette, color):
+    def convert_color(self, palette, color):
         def convert_to_image_input_type(unready):
-            if unready == "\(\d{1,3},\d{1,3},\d{1,3}\)":
+            if match("\(\d{1,3},\d{1,3},\d{1,3}\)", unready):
                 unready = unready[1:-1]
                 return tuple([int(x) for x in unready.split(",")])
-            elif unready == "#\d{6}":
+            elif match("#[0-9,a-f]{6}", unready):
                 return tuple([int(unready[1:3], 16), int(unready[3:5], 16), int(unready[5:], 16)])
             else:
                 return unready  # it is actually already good color format

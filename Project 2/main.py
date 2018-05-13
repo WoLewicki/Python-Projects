@@ -26,7 +26,6 @@ def main():
     if input == "":
         print("Didn't pass input name in arguments")
         return
-    print(input_file)
     json_dict = get_json(input_file)  # getting dictionary from json input file
     if not json_dict:
         print("Couldn't get dict from json.")
@@ -46,7 +45,7 @@ def main():
         return
 
     screen = json_dict["Screen"]
-    default_color = Paint.convert_color(palette, screen["fg_color"])
+    default_color = screen["fg_color"]
     figures = json_dict["Figures"]
     drawings = []
 

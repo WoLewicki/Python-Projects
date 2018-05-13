@@ -1,12 +1,15 @@
+from re import match
+
+
 def check_if_can_do_without_palette(dictionary):
     if "Figures" in dictionary:
         figures = dictionary["Figures"]
         for elem in figures:
             if "color" in elem:
-                if elem["color"] is not "[a-z].*" and elem["color"] is not "\(\d{1,3},\d{1,3},\d{1,3}\)" \
-                        and elem["color"] is not "#\d{6}":
+                if not match("[a-z]+", elem["color"]) and not match("\(\d{1,3},\d{1,3},\d{1,3}\)", elem["color"]) and \
+                        not match("#\d{6}", elem["color"]):
                     return False
-                elif elem["color"] == "[a-z].*":
+                elif match("[a-z]+", elem["color"]):
                     if elem["color"] not in dictionary["Palette"]:
                         return False
 
