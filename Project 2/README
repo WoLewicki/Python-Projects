@@ -1,0 +1,3 @@
+Executing the project:
+main.py with arguments: [-o or --output outputfilename] jsonfilename
+order of these doesn't matter

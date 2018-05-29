@@ -21,7 +21,7 @@ def main():
             else:
                 print("Didn't pass output name after flag.")
                 return
-        elif input_file == "" and index is not 0:
+        elif input_file == "" and index != 0 and arguments[index-1] != '-o' and arguments[index-1] != '--output':
             input_file = elem
     if input == "":
         print("Didn't pass input name in arguments")
